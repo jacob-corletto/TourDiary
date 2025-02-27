@@ -1,5 +1,16 @@
 const mongoose = require("mongoose");
 
+const CommentSchema = new mongoose.Schema({
+  user: { type: mongoose.Schema.Types.ObjectId, ref: "User", required: true },
+  text: { type: String, required: true },
+  createdAt: { type: Date, default: Date.now },
+});
+
+const ReactionSchema = new mongoose.Schema({
+  user: { type: mongoose.Schema.Types.ObjectId, ref: "User", required: true },
+  type: { type: String, required: true }, // e.g., 'like', 'love', 'laugh'
+});
+
 const PostcardSchema = new mongoose.Schema({
   photoUrl: String,
   message: String,
@@ -9,7 +20,9 @@ const PostcardSchema = new mongoose.Schema({
     coordinates: [Number],
   },
   createdAt: { type: Date, default: Date.now },
-  user: { type: mongoose.Schema.Types.ObjectId, ref: "User", required: true }, // Reference to the user who posted it
+  user: { type: mongoose.Schema.Types.ObjectId, ref: "User", required: true },
+  comments: [CommentSchema],
+  reactions: [ReactionSchema],
 });
 
 PostcardSchema.index({ location: "2dsphere" });

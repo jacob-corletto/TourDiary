@@ -2,6 +2,7 @@ import { useEffect, useState, useContext } from "react";
 import { useNavigate } from "react-router-dom";
 import { fetchPostcards } from "../services/api";
 import AuthContext from "../context/AuthContext";
+import PostcardBoard from "../components/PostcardBoard";
 
 const HomePage = () => {
   const [postcards, setPostcards] = useState([]);
@@ -36,24 +37,10 @@ const HomePage = () => {
         Your one-stop solution to document and share your travel experiences.
       </p>
       <button onClick={handleCreatePostcard}>Create New Postcard</button>
-      <div className="postcard-board">
-        {postcards.map((postcard) => (
-          <div key={postcard._id} className="postcard">
-            <img
-              src={`data:image/jpeg;base64,${postcard.photoUrl}`}
-              alt="Postcard"
-            />
-            <p>{postcard.message}</p>
-            <p>Posted by: {postcard.user.username}</p>{" "}
-            {/* Display the username */}
-            {postcard.voiceMemoUrl && (
-              <audio
-                controls
-                src={`data:audio/wav;base64,${postcard.voiceMemoUrl}`}
-              ></audio>
-            )}
-          </div>
-        ))}
+      <PostcardBoard postcards={postcards} />
+
+      <div className="footer">
+        <p>© 2023 Tour Diary. All rights reserved.</p>
       </div>
     </div>
   );

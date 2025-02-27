@@ -29,7 +29,7 @@ router.post(
         message,
         voiceMemoUrl,
         location: JSON.parse(location),
-        user: req.user._id, // Store the user ID
+        user: req.user._id,
       });
 
       await postcard.save();
@@ -63,6 +63,56 @@ router.get("/:id", async (req, res) => {
     }
     res.status(200).json(postcard);
   } catch (error) {
+    res.status(500).json({ message: "Server error" });
+  }
+});
+
+// Add a comment to a postcard
+router.post("/:id/comments", authMiddleware, async (req, res) => {
+  try {
+    const { text } = req.body;
+    const postcard = await Postcard.findById(req.params.id);
+
+    if (!postcard) {
+      return res.status(404).json({ message: "Postcard not found" });
+    }
+
+    const comment = {
+      user: req.user._id,
+      text,
+    };
+
+    postcard.comments.push(comment);
+    await postcard.save();
+
+    res.status(201).json(postcard);
+  } catch (error) {
+    console.error("Server error:", error);
+    res.status(500).json({ message: "Server error" });
+  }
+});
+
+// Add a reaction to a postcard
+router.post("/:id/reactions", authMiddleware, async (req, res) => {
+  try {
+    const { type } = req.body;
+    const postcard = await Postcard.findById(req.params.id);
+
+    if (!postcard) {
+      return res.status(404).json({ message: "Postcard not found" });
+    }
+
+    const reaction = {
+      user: req.user._id,
+      type,
+    };
+
+    postcard.reactions.push(reaction);
+    await postcard.save();
+
+    res.status(201).json(postcard);
+  } catch (error) {
+    console.error("Server error:", error);
     res.status(500).json({ message: "Server error" });
   }
 });

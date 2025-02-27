@@ -1,15 +1,17 @@
 import { createContext, useState, useEffect } from "react";
 import api from "../services/api";
 
+// Create the AuthContext
 const AuthContext = createContext();
 
+// AuthProvider component to provide authentication context to the app
 export const AuthProvider = ({ children }) => {
   const [user, setUser] = useState(null);
   const [loading, setLoading] = useState(true);
 
+  // Fetch user data from the API
   const fetchUserData = async () => {
     const token = localStorage.getItem("token");
-    console.log("Token from localStorage in authcontext:", token); // Debugging line
     if (token) {
       try {
         const response = await api.get("/users/profile", {
@@ -17,7 +19,6 @@ export const AuthProvider = ({ children }) => {
             Authorization: `Bearer ${token}`,
           },
         });
-        console.log("User data from API in authcontext:", response.data); // Debugging line
         setUser(response.data);
       } catch (error) {
         console.error("Error fetching user data:", error);
@@ -27,10 +28,12 @@ export const AuthProvider = ({ children }) => {
     setLoading(false);
   };
 
+  // Fetch user data on component mount
   useEffect(() => {
     fetchUserData();
   }, []);
 
+  // Login function
   const login = async (email, password) => {
     try {
       const response = await api.post("/auth/login", { email, password });
@@ -42,6 +45,7 @@ export const AuthProvider = ({ children }) => {
     }
   };
 
+  // Signup function
   const signup = async (username, email, password) => {
     try {
       const response = await api.post("/auth/signup", {
@@ -57,6 +61,7 @@ export const AuthProvider = ({ children }) => {
     }
   };
 
+  // Logout function
   const logout = () => {
     localStorage.removeItem("token");
     setUser(null);
