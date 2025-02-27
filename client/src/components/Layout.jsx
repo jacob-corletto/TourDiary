@@ -1,9 +1,12 @@
 import Navbar from "./Navbar";
+import { useContext } from "react";
+import AuthContext from "../context/AuthContext";
 
 const Layout = ({ children }) => {
+  const { loading } = useContext(AuthContext);
   return (
     <>
-      <Navbar />
+      {!loading && <Navbar />}
       <main className="responsive">{children}</main>
     </>
   );

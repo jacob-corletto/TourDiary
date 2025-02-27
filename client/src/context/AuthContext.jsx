@@ -11,6 +11,7 @@ export const AuthProvider = ({ children }) => {
 
   // Fetch user data from the API
   const fetchUserData = async () => {
+    setLoading(true);
     const token = localStorage.getItem("token");
     if (token) {
       try {
