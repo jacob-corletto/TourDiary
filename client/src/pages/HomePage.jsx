@@ -6,7 +6,7 @@ import PostcardBoard from "../components/PostcardBoard";
 
 const HomePage = () => {
   const [postcards, setPostcards] = useState([]);
-  const { user, loading } = useContext(AuthContext);
+  const { user, loading, logout } = useContext(AuthContext);
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -26,6 +26,11 @@ const HomePage = () => {
     navigate("/add-postcard");
   };
 
+  const handleLogout = () => {
+    logout();
+    navigate("/login");
+  };
+
   if (loading) {
     return <div>Loading...</div>;
   }
@@ -36,6 +41,7 @@ const HomePage = () => {
       <p>
         Your one-stop solution to document and share your travel experiences.
       </p>
+      <button onClick={handleLogout}>Logout</button>
       <button onClick={handleCreatePostcard}>Create New Postcard</button>
       <PostcardBoard postcards={postcards} />
 
