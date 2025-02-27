@@ -45,7 +45,13 @@ router.post(
 // Get all postcards
 router.get("/", async (req, res) => {
   try {
-    const postcards = await Postcard.find().populate("user", "username"); // Populate user information
+    const postcards = await Postcard.find()
+      .populate("user", "username")
+      .populate("user", "username photoUrl")
+      .populate({
+        path: "comments.user",
+        select: "username photoUrl",
+      }); // Populate user information
     res.status(200).json(postcards);
   } catch (error) {
     res.status(500).json({ message: "Server error" });
@@ -86,6 +92,13 @@ router.post("/:id/comments", authMiddleware, async (req, res) => {
     postcard.comments.push(comment);
     await postcard.save();
 
+    // Populate user information in the comments
+    await postcard.populate({
+      path: "comments.user",
+      select: "username photoUrl",
+    });
+
+    console.log("Postcard after adding comment:", postcard);
     res.status(201).json(postcard);
   } catch (error) {
     console.error("Server error:", error);

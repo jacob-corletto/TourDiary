@@ -1,12 +1,12 @@
-import { useContext, useState } from "react";
-// import AuthContext from "../context/AuthContext";
-// import CommentSection from "./CommentSection";
+import { useState, useContext } from "react";
+import AuthContext from "../context/AuthContext";
+import CommentSection from "./CommentSection";
 // import ReactionSection from "./ReactionSection";
 import { formatDistanceToNow } from "date-fns";
 import ImageModal from "./ImageModal";
 
 const PostcardBoard = ({ postcards }) => {
-  // const { user } = useContext(AuthContext);
+  const { user } = useContext(AuthContext);
   const [selectedImage, setSelectedImage] = useState(null);
 
   const handleImageClick = (src) => {
@@ -15,6 +15,15 @@ const PostcardBoard = ({ postcards }) => {
 
   const handleCloseModal = () => {
     setSelectedImage(null);
+  };
+
+  const handleDownload = (src) => {
+    const link = document.createElement("a");
+    link.href = src;
+    link.download = "postcard.jpg"; // Set the desired filename
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
   };
 
   return (
@@ -34,8 +43,8 @@ const PostcardBoard = ({ postcards }) => {
               <nav>
                 <h5>{postcard.title}</h5>
                 <div className="max"></div>
-                <button className="circle transparent">
-                  <i>more_vert</i>
+                <button className="circle transparent" onClick={handleDownload}>
+                  <i>download</i>
                 </button>
               </nav>
             </div>
@@ -51,8 +60,8 @@ const PostcardBoard = ({ postcards }) => {
               ) : (
                 <button className="circle">{postcard.user.username[0]}</button>
               )}
-              <div class="max">
-                <h6 class="small">{postcard.user.username}</h6>
+              <div className="max">
+                <h6 className="small">{postcard.user.username}</h6>
                 <div>
                   {formatDistanceToNow(new Date(postcard.createdAt))} ago
                 </div>
@@ -62,6 +71,11 @@ const PostcardBoard = ({ postcards }) => {
           <div className=" border padding">
             <p>{postcard.message}</p>
           </div>
+          <CommentSection
+            postcardId={postcard._id}
+            initialComments={postcard.comments}
+            user={user.username}
+          />
         </article>
       ))}
       {selectedImage && (
