@@ -1,3 +1,6 @@
+// importing as window.beercss and window.materialDynamicColors
+import "beercss";
+import "material-dynamic-colors";
 import { StrictMode } from "react";
 import { createRoot } from "react-dom/client";
 import "./index.css";

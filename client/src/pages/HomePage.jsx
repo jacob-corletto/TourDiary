@@ -3,10 +3,11 @@ import { useNavigate } from "react-router-dom";
 import { fetchPostcards } from "../services/api";
 import AuthContext from "../context/AuthContext";
 import PostcardBoard from "../components/PostcardBoard";
+// import "../styles/HomePage.css"; // Ensure you have the correct path to your CSS file
 
 const HomePage = () => {
   const [postcards, setPostcards] = useState([]);
-  const { user, loading, logout } = useContext(AuthContext);
+  const { user, loading } = useContext(AuthContext);
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -26,28 +27,32 @@ const HomePage = () => {
     navigate("/add-postcard");
   };
 
-  const handleLogout = () => {
-    logout();
-    navigate("/login");
-  };
-
   if (loading) {
     return <div>Loading...</div>;
   }
 
   return (
-    <div>
+    <div className="container">
       <h1>Welcome to Tour Diary</h1>
       <p>
         Your one-stop solution to document and share your travel experiences.
       </p>
-      <button onClick={handleLogout}>Logout</button>
-      <button onClick={handleCreatePostcard}>Create New Postcard</button>
-      <PostcardBoard postcards={postcards} />
 
-      <div className="footer">
-        <p>© 2023 Tour Diary. All rights reserved.</p>
-      </div>
+      {postcards.length === 0 ? (
+        <article className="full-screen-article extra large middle-align center-align">
+          <div>
+            <i className="extra">mail</i>
+            <h5>You have no Postcards</h5>
+            <p>Click the button to start</p>
+            <div className="space"></div>
+            <nav className="center-align">
+              <button onClick={handleCreatePostcard}>Create Postcard</button>
+            </nav>
+          </div>
+        </article>
+      ) : (
+        <PostcardBoard postcards={postcards} />
+      )}
     </div>
   );
 };

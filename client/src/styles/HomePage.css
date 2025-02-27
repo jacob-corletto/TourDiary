@@ -1,0 +1,29 @@
+.full-screen-article {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh; /* Full viewport height */
+  text-align: center;
+}
+
+.full-screen-article .space {
+  margin-top: 1rem;
+}
+
+.full-screen-article nav {
+  margin-top: 1rem;
+}
+
+.full-screen-article button {
+  padding: 0.75rem 1.5rem;
+  font-size: 1rem;
+  background-color: #007bff;
+  color: white;
+  border: none;
+  border-radius: 0.25rem;
+  cursor: pointer;
+}
+
+.full-screen-article button:hover {
+  background-color: #0056b3;
+}

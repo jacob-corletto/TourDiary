@@ -12,6 +12,7 @@ const ReactionSchema = new mongoose.Schema({
 });
 
 const PostcardSchema = new mongoose.Schema({
+  title: { type: String, required: true },
   photoUrl: String,
   message: String,
   voiceMemoUrl: String,

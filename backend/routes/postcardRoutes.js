@@ -16,7 +16,7 @@ router.post(
   upload.fields([{ name: "photo" }, { name: "voiceMemo" }]),
   async (req, res) => {
     try {
-      const { message, location } = req.body;
+      const { title, message, location } = req.body;
       const photoUrl = req.files.photo
         ? req.files.photo[0].buffer.toString("base64")
         : null;
@@ -25,6 +25,7 @@ router.post(
         : null;
 
       const postcard = new Postcard({
+        title,
         photoUrl,
         message,
         voiceMemoUrl,
