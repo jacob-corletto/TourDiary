@@ -3,12 +3,15 @@ import { useNavigate } from "react-router-dom";
 import { fetchPostcards } from "../services/api";
 import AuthContext from "../context/AuthContext";
 import PostcardBoard from "../components/PostcardBoard";
+import LoadingScreen from "../components/LoadingScreen";
+import me from "../assets/me.png"; // Ensure you have the correct path to your image
 // import "../styles/HomePage.css"; // Ensure you have the correct path to your CSS file
 
 const HomePage = () => {
   const [postcards, setPostcards] = useState([]);
   const { user, loading } = useContext(AuthContext);
   const navigate = useNavigate();
+  const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
     if (!loading && !user) {
@@ -17,6 +20,7 @@ const HomePage = () => {
       const loadPostcards = async () => {
         const data = await fetchPostcards();
         setPostcards(data);
+        setIsLoading(false);
       };
 
       loadPostcards();
@@ -27,13 +31,16 @@ const HomePage = () => {
     navigate("/add-postcard");
   };
 
-  if (loading) {
-    return <div>Loading...</div>;
+  if (loading || isLoading) {
+    return <LoadingScreen />;
   }
 
   return (
     <div className="container">
-      <h1>Welcome to Tour Diary</h1>
+      {/* <img src={me} alt="" /> */}
+      <h1 className="extra large middle-align center-align primary round">
+        Tour {<img className="large" src={me} />} Diary
+      </h1>
       <p>
         Your one-stop solution to document and share your travel experiences.
       </p>
