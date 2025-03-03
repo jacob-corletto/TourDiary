@@ -36,6 +36,12 @@
   --surface-container-high: #2f2829;
   --surface-container-highest: #3a3334;
 }
+.rubik-bubbles-regular {
+  font-family: "Rubik Bubbles", system-ui;
+  font-weight: 400;
+  font-style: normal;
+}
+
 /* 
 .logo {
   height: 6em;

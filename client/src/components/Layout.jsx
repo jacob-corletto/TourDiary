@@ -3,10 +3,10 @@ import { useContext } from "react";
 import AuthContext from "../context/AuthContext";
 
 const Layout = ({ children }) => {
-  const { loading } = useContext(AuthContext);
+  const { loading, user } = useContext(AuthContext);
   return (
     <>
-      {!loading && <Navbar />}
+      {!loading && user && <Navbar />}
       <main className="responsive">{children}</main>
     </>
   );
