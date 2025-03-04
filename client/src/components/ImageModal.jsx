@@ -4,6 +4,7 @@ const ImageModal = ({ src, alt, onClose }) => {
   return (
     <div className="modal" onClick={onClose}>
       <div className="modal-content" onClick={(e) => e.stopPropagation()}>
+        <div className="circle right-round top-round extra"></div>
         <span className="close" onClick={onClose}>
           &times;
         </span>

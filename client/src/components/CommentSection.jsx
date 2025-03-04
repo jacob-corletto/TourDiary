@@ -1,5 +1,6 @@
 import { useState, useRef } from "react";
 import api from "../services/api";
+import formatDistanceToNow from "date-fns/formatDistanceToNow";
 
 const CommentSection = ({ postcardId, initialComments, user }) => {
   const [comments, setComments] = useState(initialComments);
@@ -55,24 +56,24 @@ const CommentSection = ({ postcardId, initialComments, user }) => {
         <ul className="list border">
           {comments.map((comment) => (
             <li key={comment._id} className="padding">
-              <div className="flex items-center">
-                {comment.user && comment.user.photoUrl ? (
-                  <img
-                    className="circle"
-                    src={`data:image/jpeg;base64,${comment.user.photoUrl}`}
-                    alt={comment.user.username}
-                  />
-                ) : (
-                  <button className="circle">
-                    {comment.user ? comment.user.username[0] : "?"}
-                  </button>
-                )}
-                <div className="max">
-                  <h6 className="small">
-                    {comment.user ? comment.user.username : "Unknown User"}
-                  </h6>
-                  <p>{comment.text}</p>
-                </div>
+              {comment.user && comment.user.profilePicture ? (
+                <img
+                  className="circle"
+                  src={`${comment.user.profilePicture}`}
+                  alt={comment.user.username}
+                />
+              ) : (
+                <button className="circle">
+                  {comment.user ? comment.user.username[0] : "?"}
+                </button>
+              )}
+              <div className="max">
+                <h6 className="small">
+                  {comment.user ? comment.user.username : "Unknown User"}
+                  {" - "}
+                  {formatDistanceToNow(new Date(comment.createdAt))}
+                </h6>
+                <div className="">{comment.text}</div>
               </div>
             </li>
           ))}

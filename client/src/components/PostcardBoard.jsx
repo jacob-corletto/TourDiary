@@ -51,10 +51,10 @@ const PostcardBoard = ({ postcards }) => {
           </article>
           <ul className="list border">
             <li>
-              {postcard.user.photoUrl ? (
+              {postcard.user.profilePicture ? (
                 <img
                   className="circle"
-                  src={`data:image/jpeg;base64,${postcard.user.photoUrl}`}
+                  src={`${postcard.user.profilePicture}`}
                   alt={postcard.user.username}
                 />
               ) : (
@@ -79,11 +79,13 @@ const PostcardBoard = ({ postcards }) => {
         </article>
       ))}
       {selectedImage && (
-        <ImageModal
-          src={selectedImage}
-          alt="Postcard"
-          onClose={handleCloseModal}
-        />
+        <>
+          <ImageModal
+            src={selectedImage}
+            alt="Postcard"
+            onClose={handleCloseModal}
+          />
+        </>
       )}
     </div>
   );

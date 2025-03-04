@@ -38,7 +38,7 @@ const HomePage = () => {
   return (
     <div className="container">
       {/* <img src={me} alt="" /> */}
-      <h1 className="extra large middle-align center-align primary round">
+      <h1 className="extra large middle-align center-align round rubik-bubbles-regular">
         Tour {<img className="large" src={me} />} Diary
       </h1>
       <p>

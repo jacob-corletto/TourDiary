@@ -38,6 +38,9 @@ const PostcardForm = () => {
 
   return (
     <>
+      <h1 className=" small padding center-align rubik-bubbles-regular">
+        Make a Postcard
+      </h1>
       <form onSubmit={handleSubmit} className="postcard-form">
         <fieldset>
           <legend>Create a Postcard</legend>

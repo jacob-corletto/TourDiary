@@ -46,11 +46,10 @@ router.post(
 router.get("/", async (req, res) => {
   try {
     const postcards = await Postcard.find()
-      .populate("user", "username")
-      .populate("user", "username photoUrl")
+      .populate("user", "username profilePicture")
       .populate({
         path: "comments.user",
-        select: "username photoUrl",
+        select: "username profilePicture",
       }); // Populate user information
     res.status(200).json(postcards);
   } catch (error) {
